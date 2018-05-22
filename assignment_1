@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+if [-d "~/embedded_systems_course"]; then
+	echo "The system already detected the directory, would you like to to update them ?[Y/N]: "
+	read -r choice
+	if ["$choice" == "Y"]; then
+	git pull https://github.com/BioBoost/embedded_systems_course
+	elif ["$choice" == "N"]; then
+	echo "Cancelled"
+	else
+	echo "Invalid input"
+	fi
+else
+	git clone https://github.com/BioBoost/embedded_systems_course
+fi
+if [-d "~/embedded_systems_tools_and_scripts"]; then
+	echo "The system already detected the directory, would you like to to update them ?[Y/N]: "
+	read -r choice
+	if ["$choice" == "Y"]; then
+	git pull https://github.com/BioBoost/embedded_systems_tools_and_scripts
+	elif ["$choice" == "N"]; then
+	echo "Cancelled"
+	else
+	echo "Invalid input"
+	fi
+else
+	git clone https://github.com/BioBoost/embedded_systems_tools_and_scripts
+fi

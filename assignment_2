@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+userB="pi"
+directory="/home/user/i2c/src"
+ip_address=""
+targetdirectory="/home/pi"
+
+scp -r "$directory" "$userB@$ip_address":"$targetdirectory"
+

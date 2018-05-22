@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+ 
+userB="pi"
+ip_address=""
+public_key_dir="/home/user/.ssh/id_rsa.pub"
+
+#Generate the SSH keys
+echo "Trying to generate the ssh keys"
+ssh-keygen -t rsa
+echo "Succesfully generated the ssh keys"
+#Login as a User on the raspberry pi
+echo "Trying to log in $userB"
+ssh "$userB@$ip_address"
+echo "Login succesfull"
+#Make the appropriate directories to initiate the ssh keys on the raspberry pi
+echo "Trying to create directory .ssh"
+ssh "$userB@$ip_address" 'mkdir -p ~/.ssh'
+ssh "$userB@$ip_address" 'cd ~/.ssh'
+echo "Directory .ssh creation succesful"
+#Copying the keys to the RPi
+echo "Trying to copy the authorized keys to the raspberry pi"
+scp "$public_key_dir" "$userB@$ip_address":~/.ssh
+echo "Authorized keys were succesfully copied"
+echo "Trying to rename the id_rsa.pub file to authorized_keys"
+ssh "$userB@$ip_address" 'mv ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys' 
+echo "Renaming the id_rsa.pub to authorized_keys was succesful"
+#Changing permissions
+echo "Trying to change the permission of the ssh directory"
+ssh "$userB@$ip_address" 'chmod -R 600 ~/.ssh'
+ssh "$userB@$ip_address" 'chmod 700 ~/.ssh'
+echo "Succesfully changed the permissions"
+echo "Adding key to the list, in case multiple keys were issued"
+ssh-add
+echo "Key was succesfully added"
+#Login using SSH
+ssh "$userB@$ip_address"
